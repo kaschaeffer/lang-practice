@@ -49,7 +49,7 @@ def setup_stats_db():
 
     cur.execute(
         '''CREATE TABLE IF NOT EXISTS stats
-        (question text, answer text, response text, is_correct bool, time real)
+        (timestamp real, question text, answer text, response text, is_correct bool, response_time real)
         '''
     )
     con.commit()
@@ -86,7 +86,8 @@ def quiz_item(item, stats_con):
 
 def log_stats(stats_con, question, answer, response, is_correct, time_taken):
     cur = stats_con.cursor()
-    stats_con.execute(f"INSERT INTO stats VALUES ('{question}', '{answer}', '{response}', '{is_correct}', '{time_taken}')")
+    current_time = time()
+    stats_con.execute(f"INSERT INTO stats VALUES ('{current_time}', '{question}', '{answer}', '{response}', '{is_correct}', '{time_taken}')")
     stats_con.commit()
 	
 
